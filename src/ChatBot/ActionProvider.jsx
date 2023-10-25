@@ -13,14 +13,40 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
   };
 
-  const handleGot = () => {
-    const clientMessage = createClientMessage("Got It!");
+  const handleGot = (e) => {
+    const clientMessage = createClientMessage(`${e.target.innerText}`);
+    const botMessage = createChatBotMessage("Pick Slot", { widget: "date" });
+    setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, clientMessage, botMessage],
+    }));
+  };
+
+  const handleSlot = (e) => {
+    const clientMessage = createClientMessage(`${e.target.innerText}`);
+    const botMessage = createChatBotMessage("Enter your Name");
+    setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, clientMessage, botMessage],
+    }));
+  };
+  const showAge = (e) => {
+    const botMessage = createChatBotMessage("Enter your Age", {
+      widget: "age",
+    });
+    console.log(e);
+    setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
+  const displayAge = (e) => {
+    const clientMessage = createClientMessage(`${e.target.value}`);
     setState((prev) => ({
       ...prev,
       messages: [...prev.messages, clientMessage],
     }));
   };
-
   return (
     <div>
       {React.Children.map(children, (child) => {
@@ -28,6 +54,9 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
           actions: {
             handleMessage,
             handleGot,
+            handleSlot,
+            showAge,
+            displayAge,
           },
         });
       })}

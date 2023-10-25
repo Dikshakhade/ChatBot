@@ -1,13 +1,16 @@
 import React from "react";
 
 const MessageParser = ({ children, actions }) => {
-  console.log(actions);
+  var letters = /^[A-Za-z]+$/;
   const parse = (message) => {
     if (message.includes("Enroll")) {
       actions.handleMessage();
     }
     if (message.includes("Got")) {
       actions.handleGot();
+    }
+    if (message.match(letters)) {
+      actions.showAge();
     }
   };
 
