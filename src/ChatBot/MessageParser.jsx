@@ -1,6 +1,8 @@
 import React from "react";
-
+import { useDispatch } from "react-redux";
+import { nameReducer, ageReducer } from "../features/Profile/profileSlice";
 const MessageParser = ({ children, actions }) => {
+  const dispatch = useDispatch();
   var letters = /^[A-Za-z]+$/;
   const parse = (message) => {
     if (message.includes("Enroll")) {
@@ -10,7 +12,12 @@ const MessageParser = ({ children, actions }) => {
       actions.handleGot();
     }
     if (message.match(letters)) {
+      dispatch(nameReducer(message));
       actions.showAge();
+    }
+    if (!isNaN(message)) {
+      dispatch(ageReducer(message));
+      actions.displayAge();
     }
   };
 
