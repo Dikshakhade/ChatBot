@@ -1,14 +1,23 @@
 import React from "react";
+import { createClientMessage } from "react-chatbot-kit";
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   const handleMessage = () => {
     const botMessage = createChatBotMessage(
-      "Hello, Welcome to student info system!"
+      "Hello, Welcome to student info system!",
+      { widget: "got" }
     );
-
     setState((prev) => ({
       ...prev,
       messages: [...prev.messages, botMessage],
+    }));
+  };
+
+  const handleGot = () => {
+    const clientMessage = createClientMessage("Got It!");
+    setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, clientMessage],
     }));
   };
 
@@ -18,6 +27,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         return React.cloneElement(child, {
           actions: {
             handleMessage,
+            handleGot,
           },
         });
       })}
